@@ -62,6 +62,7 @@ var (
 )
 
 type QRCodeString string
+var qrData data [][]bool
 
 func (v *QRCodeString) Print() {
 	fmt.Fprint(outer, *v)
@@ -83,6 +84,7 @@ func (v *qrcodeTerminal) Get(content interface{}) (result *QRCodeString) {
 	}
 	if qr != nil && err == nil {
 		data := qr.Bitmap()
+		qrData = data
 		result = v.getQRCodeString(data)
 	}
 	return
@@ -104,6 +106,11 @@ func New2(front, back consoleColor, level qrcodeRecoveryLevel) *qrcodeTerminal {
 func New() *qrcodeTerminal {
 	front, back, level := ConsoleColors.BrightBlack, ConsoleColors.BrightWhite, QRCodeRecoveryLevels.Medium
 	return New2(front, back, level)
+}
+
+func (v *qrcodeTerminal) getQRArray*() (data [][]bool) {
+	data = qrData
+	return
 }
 
 func (v *qrcodeTerminal) getQRCodeString(data [][]bool) (result *QRCodeString) {
